@@ -10,7 +10,7 @@ function App() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    axios.post("http://localhost:3000/register", {
+    axios.post("https://new-optro-back.vercel.app/register", {
       name,
       email,
       password,
