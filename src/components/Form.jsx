@@ -37,7 +37,7 @@ function App() {
         <form onSubmit={handleSubmit}>
           <input
             type="text"
-            placeholder="Enter Name"
+            placeholder="Enter first Name"
             value={name}
             onChange={(e) => setName(e.target.value)}
             required
