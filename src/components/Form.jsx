@@ -18,9 +18,10 @@ function App() {
   const [errors, setErrors] = useState({});
   const [charCount, setCharCount] = useState(0);
   const [passwordStrength, setPasswordStrength] = useState("");
-  const [message, setMessage] = useState("");
+  // const [message, setMessage] = useState("");
   const [deviceInfo, setDeviceInfo] = useState("");
-  const [isSubmitted, setIsSubmitted] = useState(false);
+  // const [isSubmitted, setIsSubmitted] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
 
   useEffect(() => {
     const userAgent = navigator.userAgent;
@@ -92,121 +93,128 @@ function App() {
     setErrors(validationErrors);
     if (Object.keys(validationErrors).length === 0) {
       try {
-        await axios.post("https://new-optro-back.vercel.app/register", {
+        axios.post("https://new-optro-back.vercel.app/register", {
           ...formData,
           deviceInfo,
         });
-        setMessage("Customer registered successfully!");
-        setIsSubmitted(true);
+        setSubmitted(true);
+        // setMessage("Customer registered successfully!");
+        // setIsSubmitted(true);
       } catch (err) {
-        setMessage("Submission failed!", err);
+        // setMessage("Submission failed!", err);
+        console.log(err);
       }
     }
   };
 
-  if (isSubmitted) {
-    return <h3>{message}</h3>;
-  }
+  // if (isSubmitted) {
+  //   return <h3>{message}</h3>;
+  // }
 
   return (
     <div>
       <h1>Customer Registration</h1>
-      <form onSubmit={handleSubmit}>
-        <input
-          name="fullName"
-          placeholder="Full Name"
-          value={formData.fullName}
-          onChange={handleChange}
-        />
-        <span>{errors.fullName}</span>
-
-        <input
-          name="email"
-          placeholder="Email"
-          value={formData.email}
-          onChange={handleChange}
-        />
-        <span>{errors.email}</span>
-
-        <input
-          name="phone"
-          placeholder="Phone"
-          value={formData.phone}
-          onChange={handleChange}
-          onBlur={handleCheckCustomer}
-        />
-        <span>{errors.phone}</span>
-
-        <select name="gender" value={formData.gender} onChange={handleChange}>
-          <option value="">Select Gender</option>
-          <option value="Male">Male</option>
-          <option value="Female">Female</option>
-          <option value="Other">Other</option>
-        </select>
-
-        <input
-          type="date"
-          name="dob"
-          value={formData.dob}
-          onChange={handleChange}
-        />
-        <span>{errors.dob}</span>
-
-        <textarea
-          name="address"
-          placeholder="Address"
-          value={formData.address}
-          onChange={handleChange}
-        />
-        <span>{errors.address}</span>
-        <small>{charCount}/500 characters</small>
-
-        <input
-          type="password"
-          name="password"
-          placeholder="Password"
-          value={formData.password}
-          onChange={handleChange}
-        />
-        <span>{errors.password}</span>
-        <small>Password strength: {passwordStrength}</small>
-
-        <input
-          type="password"
-          name="confirmPassword"
-          placeholder="Confirm Password"
-          value={formData.confirmPassword}
-          onChange={handleChange}
-        />
-        <span>{errors.confirmPassword}</span>
-
-        <button type="button" onClick={handleGetLocation}>
-          Get Location
-        </button>
-        <input
-          readOnly
-          name="latitude"
-          placeholder="Latitude"
-          value={formData.latitude}
-        />
-        <input
-          readOnly
-          name="longitude"
-          placeholder="Longitude"
-          value={formData.longitude}
-        />
-
-        {formData.latitude && formData.longitude && (
-          <iframe
-            width="300"
-            height="200"
-            loading="lazy"
-            src={`https://maps.google.com/maps?q=${formData.latitude},${formData.longitude}&z=15&output=embed`}
+      {submitted ? (
+        <p>Form submitted successfully!</p>
+      ) : (
+        <form onSubmit={handleSubmit}>
+          <input
+            name="fullName"
+            placeholder="Full Name"
+            value={formData.fullName}
+            onChange={handleChange}
           />
-        )}
+          <span>{errors.fullName}</span>
 
-        <button type="submit">Submit</button>
-      </form>
+          <input
+            name="email"
+            placeholder="Email"
+            value={formData.email}
+            onChange={handleChange}
+          />
+          <span>{errors.email}</span>
+
+          <input
+            name="phone"
+            placeholder="Phone"
+            value={formData.phone}
+            onChange={handleChange}
+            onBlur={handleCheckCustomer}
+          />
+          <span>{errors.phone}</span>
+
+          <select name="gender" value={formData.gender} onChange={handleChange}>
+            <option value="">Select Gender</option>
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+            <option value="Other">Other</option>
+          </select>
+
+          <input
+            type="date"
+            name="dob"
+            value={formData.dob}
+            onChange={handleChange}
+          />
+          <span>{errors.dob}</span>
+
+          <textarea
+            name="address"
+            placeholder="Address"
+            value={formData.address}
+            onChange={handleChange}
+          />
+          <span>{errors.address}</span>
+          <small>{charCount}/500 characters</small>
+
+          <input
+            type="password"
+            name="password"
+            placeholder="Password"
+            value={formData.password}
+            onChange={handleChange}
+          />
+          <span>{errors.password}</span>
+          <small>Password strength: {passwordStrength}</small>
+
+          <input
+            type="password"
+            name="confirmPassword"
+            placeholder="Confirm Password"
+            value={formData.confirmPassword}
+            onChange={handleChange}
+          />
+          <span>{errors.confirmPassword}</span>
+
+          <button type="button" onClick={handleGetLocation}>
+            Get Location
+          </button>
+          <input
+            readOnly
+            name="latitude"
+            placeholder="Latitude"
+            value={formData.latitude}
+          />
+          <input
+            readOnly
+            name="longitude"
+            placeholder="Longitude"
+            value={formData.longitude}
+          />
+
+          {formData.latitude && formData.longitude && (
+            <iframe
+              width="300"
+              height="200"
+              loading="lazy"
+              src={`https://maps.google.com/maps?q=${formData.latitude},${formData.longitude}&z=15&output=embed`}
+            />
+          )}
+
+          <button type="submit">Submit</button>
+        </form>
+      )}
+
       {/* <h3>{message}</h3> */}
     </div>
   );
