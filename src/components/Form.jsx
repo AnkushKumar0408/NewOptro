@@ -112,110 +112,193 @@ function App() {
   // }
 
   return (
-    <div>
-      <h1>Customer Registration</h1>
-      {submitted ? (
-        <p>Form submitted successfully!</p>
-      ) : (
-        <form onSubmit={handleSubmit}>
-          <input
-            name="fullName"
-            placeholder="Full Name"
-            value={formData.fullName}
-            onChange={handleChange}
-          />
-          <span>{errors.fullName}</span>
+    <div className="min-h-screen bg-gradient-to-r from-blue-50 to-blue-100 flex items-center justify-center p-4">
+      <div className="w-full max-w-2xl bg-white rounded-2xl shadow-xl p-8">
+        <h1 className="text-3xl font-bold text-center text-blue-600 mb-6">
+          Customer Registration
+        </h1>
 
-          <input
-            name="email"
-            placeholder="Email"
-            value={formData.email}
-            onChange={handleChange}
-          />
-          <span>{errors.email}</span>
+        {submitted ? (
+          <p className="text-center text-green-600 text-xl font-semibold">
+            Form submitted successfully!
+          </p>
+        ) : (
+          <form onSubmit={handleSubmit} className="space-y-5">
+            <div>
+              <input
+                name="fullName"
+                placeholder="Full Name"
+                value={formData.fullName}
+                onChange={handleChange}
+                className="input"
+              />
+              <span className="error">{errors.fullName}</span>
+            </div>
 
-          <input
-            name="phone"
-            placeholder="Phone"
-            value={formData.phone}
-            onChange={handleChange}
-            onBlur={handleCheckCustomer}
-          />
-          <span>{errors.phone}</span>
+            <div>
+              <input
+                name="email"
+                placeholder="Email"
+                value={formData.email}
+                onChange={handleChange}
+                className="input"
+              />
+              <span className="error">{errors.email}</span>
+            </div>
 
-          <select name="gender" value={formData.gender} onChange={handleChange}>
-            <option value="">Select Gender</option>
-            <option value="Male">Male</option>
-            <option value="Female">Female</option>
-            <option value="Other">Other</option>
-          </select>
+            <div>
+              <input
+                name="phone"
+                placeholder="Phone"
+                value={formData.phone}
+                onChange={handleChange}
+                onBlur={handleCheckCustomer}
+                className="input"
+              />
+              <span className="error">{errors.phone}</span>
+            </div>
 
-          <input
-            type="date"
-            name="dob"
-            value={formData.dob}
-            onChange={handleChange}
-          />
-          <span>{errors.dob}</span>
+            <div>
+              <select
+                name="gender"
+                value={formData.gender}
+                onChange={handleChange}
+                className="input"
+              >
+                <option value="">Select Gender</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
 
-          <textarea
-            name="address"
-            placeholder="Address"
-            value={formData.address}
-            onChange={handleChange}
-          />
-          <span>{errors.address}</span>
-          <small>{charCount}/500 characters</small>
+            <div>
+              <input
+                type="date"
+                name="dob"
+                value={formData.dob}
+                onChange={handleChange}
+                className="input"
+              />
+              <span className="error">{errors.dob}</span>
+            </div>
 
-          <input
-            type="password"
-            name="password"
-            placeholder="Password"
-            value={formData.password}
-            onChange={handleChange}
-          />
-          <span>{errors.password}</span>
-          <small>Password strength: {passwordStrength}</small>
+            <div>
+              <textarea
+                name="address"
+                placeholder="Address"
+                value={formData.address}
+                onChange={handleChange}
+                className="input h-24 resize-none"
+              />
+              <span className="error">{errors.address}</span>
+              <small className="text-sm text-gray-500">
+                {charCount}/500 characters
+              </small>
+            </div>
 
-          <input
-            type="password"
-            name="confirmPassword"
-            placeholder="Confirm Password"
-            value={formData.confirmPassword}
-            onChange={handleChange}
-          />
-          <span>{errors.confirmPassword}</span>
+            <div>
+              <input
+                type="password"
+                name="password"
+                placeholder="Password"
+                value={formData.password}
+                onChange={handleChange}
+                className="input"
+              />
+              <span className="error">{errors.password}</span>
+              <div className="mt-1">
+                <div className="h-2 w-full bg-gray-300 rounded-full overflow-hidden">
+                  <div
+                    className={`h-full transition-all duration-300 rounded-full ${
+                      passwordStrength === "Weak"
+                        ? "bg-red-500 w-1/3"
+                        : passwordStrength === "Moderate"
+                        ? "bg-yellow-400 w-2/3"
+                        : passwordStrength === "Strong"
+                        ? "bg-green-500 w-full"
+                        : ""
+                    }`}
+                  ></div>
+                </div>
+                <small
+                  className={`text-sm font-medium ${
+                    passwordStrength === "Weak"
+                      ? "text-red-500"
+                      : passwordStrength === "Moderate"
+                      ? "text-yellow-500"
+                      : passwordStrength === "Strong"
+                      ? "text-green-500"
+                      : "text-gray-500"
+                  }`}
+                >
+                  {passwordStrength && `Password strength: ${passwordStrength}`}
+                </small>
+              </div>
+            </div>
 
-          <button type="button" onClick={handleGetLocation}>
-            Get Location
-          </button>
-          <input
-            readOnly
-            name="latitude"
-            placeholder="Latitude"
-            value={formData.latitude}
-          />
-          <input
-            readOnly
-            name="longitude"
-            placeholder="Longitude"
-            value={formData.longitude}
-          />
+            <div>
+              <input
+                type="password"
+                name="confirmPassword"
+                placeholder="Confirm Password"
+                value={formData.confirmPassword}
+                onChange={handleChange}
+                className="input"
+              />
+              <span className="error">{errors.confirmPassword}</span>
+            </div>
 
-          {formData.latitude && formData.longitude && (
-            <iframe
-              width="300"
-              height="200"
-              loading="lazy"
-              src={`https://maps.google.com/maps?q=${formData.latitude},${formData.longitude}&z=15&output=embed`}
-            />
-          )}
+            <div>
+              <button
+                type="button"
+                onClick={handleGetLocation}
+                className="bg-blue-500 hover:bg-blue-600 text-white font-medium px-4 py-2 rounded-lg transition"
+              >
+                Get Location
+              </button>
+            </div>
 
-          <button type="submit">Submit</button>
-        </form>
-      )}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <input
+                readOnly
+                name="latitude"
+                placeholder="Latitude"
+                value={formData.latitude}
+                className="input bg-gray-100"
+              />
+              <input
+                readOnly
+                name="longitude"
+                placeholder="Longitude"
+                value={formData.longitude}
+                className="input bg-gray-100"
+              />
+            </div>
 
-      {/* <h3>{message}</h3> */}
+            {formData.latitude && formData.longitude && (
+              <div className="mt-4 rounded-lg overflow-hidden">
+                <iframe
+                  width="100%"
+                  height="200"
+                  loading="lazy"
+                  className="rounded-lg border border-blue-300"
+                  src={`https://maps.google.com/maps?q=${formData.latitude},${formData.longitude}&z=15&output=embed`}
+                />
+              </div>
+            )}
+
+            <div className="text-center">
+              <button
+                type="submit"
+                className="w-full bg-green-500 hover:bg-green-600 text-white font-semibold py-3 rounded-lg shadow-md transition"
+              >
+                Submit
+              </button>
+            </div>
+          </form>
+        )}
+      </div>
     </div>
   );
 }
