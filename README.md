@@ -22,6 +22,10 @@ then in the folder make a folder of frontend
 
 then in frontend folder you can clone it
 
+the in frontend folder run the command npm i to install node module package
+
 in the code change the server link to http://localhost:3000
+
+to run fortend the command is npm run dev
 
 then set up the backend which is given in my backend repository 
